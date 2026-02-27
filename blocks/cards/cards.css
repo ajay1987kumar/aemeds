@@ -10,7 +10,7 @@
 .cards > ul > li {
   border: 1px solid #dadada;
   background-color: var(--background-color);
-  background-color: #deb7b7;
+  background-color: #f4f0f0;
   border-radius: 5px;
 }
 
