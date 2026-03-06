@@ -1,34 +1,34 @@
 /*
  * Video Block
- * Show a video referenced by a link
- * https://www.hlx.live/developer/block-collection/video
+ * Show a customvideo referenced by a link
+ * https://www.hlx.live/developer/block-collection/customvideo
  */
 
 const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
 
 /**
- * Determines the video source type from a link
- * @param {string} link - The video link URL
- * @returns {string} - 'youtube', 'vimeo', or 'video'
+ * Determines the customvideo source type from a link
+ * @param {string} link - The customvideo link URL
+ * @returns {string} - 'youtube', 'vimeo', or 'customvideo'
  */
 function getVideoSource(link) {
   if (link.includes('youtube') || link.includes('youtu.be')) return 'youtube';
   if (link.includes('vimeo')) return 'vimeo';
-  return 'video';
+  return 'customvideo';
 }
 
 /**
- * Gets a human-readable video type label
- * @param {string} source - The video source type ('youtube', 'vimeo', or 'video')
+ * Gets a human-readable customvideo type label
+ * @param {string} source - The customvideo source type ('youtube', 'vimeo', or 'customvideo')
  * @returns {string} - Human-readable label
  */
 function getVideoTypeLabel(source) {
   const labels = {
-    youtube: 'YouTube video',
-    vimeo: 'Vimeo video',
-    video: 'MP4 video',
+    youtube: 'YouTube customvideo',
+    vimeo: 'Vimeo customvideo',
+    customvideo: 'MP4 customvideo',
   };
-  return labels[source] || 'video';
+  return labels[source] || 'customvideo';
 }
 
 function embedYoutube(url, autoplay, background) {
@@ -60,7 +60,7 @@ function embedYoutube(url, autoplay, background) {
 }
 
 function embedVimeo(url, autoplay, background) {
-  const [, video] = url.pathname.split('/');
+  const [, customvideo] = url.pathname.split('/');
   let suffix = '';
   if (background || autoplay) {
     const suffixParams = {
@@ -71,7 +71,7 @@ function embedVimeo(url, autoplay, background) {
   }
   const temp = document.createElement('div');
   temp.innerHTML = `<div style="left: 0; width: 100%; height: 0; position: relative; padding-bottom: 56.25%;">
-      <iframe src="https://player.vimeo.com/video/${video}${suffix}" 
+      <iframe src="https://player.vimeo.com/customvideo/${customvideo}${suffix}" 
       style="border: 0; top: 0; left: 0; width: 100%; height: 100%; position: absolute;" 
       frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen  
       title="Content from Vimeo" loading="lazy"></iframe>
@@ -80,25 +80,25 @@ function embedVimeo(url, autoplay, background) {
 }
 
 function getVideoElement(source, autoplay, background) {
-  const video = document.createElement('customvideo');
-  video.setAttribute('controls', '');
-  if (autoplay) video.setAttribute('autoplay', '');
+  const customvideo = document.createElement('customvideo');
+  customvideo.setAttribute('controls', '');
+  if (autoplay) customvideo.setAttribute('autoplay', '');
   if (background) {
-    video.setAttribute('loop', '');
-    video.setAttribute('playsinline', '');
-    video.removeAttribute('controls');
-    video.addEventListener('canplay', () => {
-      video.muted = true;
-      if (autoplay) video.play();
+    customvideo.setAttribute('loop', '');
+    customvideo.setAttribute('playsinline', '');
+    customvideo.removeAttribute('controls');
+    customvideo.addEventListener('canplay', () => {
+      customvideo.muted = true;
+      if (autoplay) customvideo.play();
     });
   }
 
   const sourceEl = document.createElement('source');
   sourceEl.setAttribute('src', source);
   sourceEl.setAttribute('type', `customvideo/${source.split('.').pop()}`);
-  video.append(sourceEl);
+  customvideo.append(sourceEl);
 
-  return video;
+  return customvideo;
 }
 
 function loadVideoEmbed(block, link, autoplay, background) {
