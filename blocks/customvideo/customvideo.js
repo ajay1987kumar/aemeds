@@ -80,7 +80,7 @@ function embedVimeo(url, autoplay, background) {
 }
 
 function getVideoElement(source, autoplay, background) {
-  const video = document.createElement('video');
+  const video = document.createElement('customvideo');
   video.setAttribute('controls', '');
   if (autoplay) video.setAttribute('autoplay', '');
   if (background) {
@@ -95,7 +95,7 @@ function getVideoElement(source, autoplay, background) {
 
   const sourceEl = document.createElement('source');
   sourceEl.setAttribute('src', source);
-  sourceEl.setAttribute('type', `video/${source.split('.').pop()}`);
+  sourceEl.setAttribute('type', `customvideo/${source.split('.').pop()}`);
   video.append(sourceEl);
 
   return video;
@@ -138,7 +138,7 @@ export default async function decorate(block) {
   if (placeholder) {
     block.classList.add('placeholder');
     const wrapper = document.createElement('div');
-    wrapper.className = 'video-placeholder';
+    wrapper.className = 'customvideo-placeholder';
     wrapper.append(placeholder);
 
     if (!autoplay) {
@@ -148,7 +148,7 @@ export default async function decorate(block) {
 
       wrapper.insertAdjacentHTML(
         'beforeend',
-        `<div class="video-placeholder-play"><button type="button" title="${ariaLabel}" aria-label="${ariaLabel}"></button></div>`,
+        `<div class="customvideo-placeholder-play"><button type="button" title="${ariaLabel}" aria-label="${ariaLabel}"></button></div>`,
       );
       wrapper.addEventListener('click', () => {
         wrapper.remove();
